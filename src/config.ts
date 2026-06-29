@@ -10,5 +10,6 @@ export const config = {
     baseUrl: process.env.HERMES_BASE_URL || "http://localhost:8000",
     timeoutMs: parseInt(process.env.HERMES_TIMEOUT_MS || "120000", 10),
     retries: parseInt(process.env.HERMES_RETRIES || "2", 10),
+    api_key: process.env.HERMES_API_KEY,
   },
 };
