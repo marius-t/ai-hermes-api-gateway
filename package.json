@@ -4,12 +4,13 @@
   "description": "Koa API gateway forwarding to Hermes agent",
   "main": "dist/server.js",
   "scripts": {
-    "dev": "ts-node src/server.ts",
+    "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
+    "start:dev": "ts-node-dev --respawn --transpile-only src/server.ts",
     "build": "tsc",
     "start": "node dist/server.js"
   },
   "dependencies": {
-    "@koa/router": "^12.0.1",
+    "@koa/router": "^15.6.0",
     "axios": "^1.7.7",
     "dotenv": "^16.4.5",
     "koa": "^2.15.3",
@@ -17,11 +18,12 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
-    "@types/koa": "^2.15.0",
-    "@types/koa-bodyparser": "^4.3.12",
+    "@types/koa": "^3.0.3",
     "@types/koa__router": "^12.0.4",
+    "@types/koa-bodyparser": "^4.3.12",
     "@types/node": "^22.7.4",
     "ts-node": "^10.9.2",
+    "ts-node-dev": "^2.0.0",
     "typescript": "^5.6.2"
   }
 }

@@ -1,12 +1,15 @@
 // src/middleware/auth.ts
-import { Context, Next } from "koa";
+import { ParameterizedContext, Next } from "koa";
 import { config } from "../config";
 
 /**
  * Bearer <REDACTED> — rejects any request without
- * Authorization: Bearer <config.sessionToken>
+ * Authorization: Bearer <confi...n>
  */
-export async function authMiddleware(ctx: Context, next: Next): Promise<void> {
+export async function authMiddleware(
+  ctx: ParameterizedContext,
+  next: Next,
+): Promise<void> {
   const header = ctx.headers.authorization;
 
   if (!header || !header.startsWith("Bearer ")) {

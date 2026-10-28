@@ -13,12 +13,14 @@ export async function forwardToHermes(
   agentId?: string,
   context?: Record<string, unknown>,
 ): Promise<string> {
-  const url = `${config.hermes.baseUrl}/api/v1/messages`;
+  const url = `${config.hermes.baseUrl}/v1/chat/completions`;
 
   const payload: Record<string, unknown> = {
+    model: "hermes-agent",
     messages: [{ role: "user", content: message }],
     stream: false,
   };
+
   if (agentId) payload.agent_id = agentId;
   if (context) payload.metadata = context;
 
@@ -28,13 +30,17 @@ export async function forwardToHermes(
     try {
       const resp = await axios.post(url, payload, {
         timeout: config.hermes.timeoutMs,
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${config.hermes.api_key}`,
+        },
       });
 
       // Expect Hermes to return either:
       //   { output: "..." }  or  { content: [{ type: "text", text: "..." }] }
       const data = resp.data;
       const output =
+        data.choices?.[0]?.message?.content ??
         data.output ??
         data.content?.find((c: any) => c.type === "text")?.text ??
         data.result ??
@@ -61,7 +67,6 @@ export async function forwardToHermes(
       }
     }
   }
-
   const axiosErr = lastErr as AxiosError;
   if (axiosErr?.code === "ECONNREFUSED" || axiosErr?.code === "ENOTFOUND") {
     throw Object.assign(new Error("Hermes agent unreachable"), { status: 502 });
