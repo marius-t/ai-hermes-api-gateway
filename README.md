@@ -1,4 +1,4 @@
-# ai-api
+# ai-hermes-api-gateway
 
 A lightweight Koa.js API gateway that forwards user messages to a running
 [Hermes agent](https://hermes-agent.nousresearch.com/) and returns only the
